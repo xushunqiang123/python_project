@@ -1,0 +1,107 @@
+Flask实现发送邮件功能
+
+邮件服务用途较多，如：注册时验证用户、找回密码、线上程序出现重大bug时触发邮件提醒以及服务器关键数据（CPU、网络、内存）监控提醒等，
+可以说随处可以用到，下面讲解了一个使用flask_mail实现的邮件发送功能，有完整代码，测试可行。
+
+
+首先下载依赖库flask_mail
+pip install flask_mail
+
+配置信息：
+app.config['MAIL_SERVER'] = 'smtp.qq.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'xxx@qq.com' //邮箱账号
+app.config['MAIL_PASSWORD'] = 'xxxx'  //QQ邮箱授权码
+mail = Mail(app)
+注意，password这里填写的不是邮箱密码，而是邮箱授权码，关于QQ邮箱授权码如何获取，可以自行百度。
+
+
+其他参考配置信息（可选）
+配置项	默认值	功能
+MAIL_SERVER	localhost	邮箱服务器
+MAIL_PORT	25	端口
+MAIL_USE_TLS	False	是否使用TLS
+MAIL_USE_SSL	False	是否使用SSL
+MAIL_DEBUG	app.debug	是否为DEBUG模式，打印调试消息
+MAIL_SUPPRESS_SEND	app.testing	设置是否真的发送邮件，True不发送
+MAIL_USERNAME	None	用户名，填邮箱
+MAIL_PASSWORD	None	密码，填授权码
+MAIL_DEFAULT_SENDER	None	默认发送者，填邮箱
+MAIL_MAX_EMAILS	None	一次连接中的发送邮件的上限
+MAIL_ASCII_ATTACHMENTS	False	如果 MAIL_ASCII_ATTACHMENTS 设置成 True 的话，文件名将会转换成 ASCII 的。一般用于添加附件。
+
+一个完整可运行的程序：
+# -*- coding: utf-8 -*-
+from flask import Flask, request
+from flask_script import Manager, Shell
+from flask_mail import Mail, Message
+from threading import Thread
+import os
+ 
+app = Flask(__name__)
+app.config['MAIL_SERVER'] = 'smtp.qq.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = '57812xxx@qq.com'
+app.config['MAIL_PASSWORD'] = 'agulvzfyjlbehi'
+mail = Mail(app)
+ 
+msg = Message('标题', sender='xxxx@qq.com', recipients=['xxxxx@163.com'])
+msg.body = '内容'
+with app.app_context():
+    mail.send(msg)
+ 
+if __name__ == '__main__':
+    app.run()
+
+上面是一个发送邮件的简单示例，只要运行脚本，就会发送邮件到收件箱。在实际运用中，发送邮件通常需要几秒中，当触发发送邮件条件时我们不会在页面停留等他发完才去进行别的操作，而是为发送邮件服务开启另一个线程，方法：
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+ 
+@app.route('/send_email')
+def send_email():
+    msg.body = '内容'
+    thread = Thread(target=send_async_email, args=[app, msg])
+    thread.start()
+    return 'success'
+
+以上就是发送邮件的具体代码操作。
+
+
+
+源码：
+# -*- coding: UTF-8 -*-
+
+from flask import Flask
+from flask_mail import Mail,Message
+import config
+from threading import Thread
+
+app = Flask(__name__)
+# app.config.from_object(config)
+app.config['MAIL_SERVER'] = 'smtp.qq.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'xxxxx@qq.com' #邮箱账号
+app.config['MAIL_PASSWORD'] = 'xxxxx'  #QQ邮箱授权码
+mail = Mail(app)
+
+
+def send_message_mail(app,message):
+    with app.app_context():
+        mail.send(message)
+
+@app.route('/')
+def sendmail():
+    message = Message('xxxxx', sender='xxxxx@qq.com', recipients=['xxxxx@163.com'])
+    message.body ="是否有50个邮件呢？？？？？"
+    for i in range(5):
+        thread = Thread(target=send_message_mail,args=[app,message])
+        thread.start()
+    return "successfull!!!"
+if __name__ == '__main__':
+    app.run()
+
+
