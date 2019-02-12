@@ -1,0 +1,140 @@
+# -*- coding: utf-8 -*-
+import os
+import time
+
+dir1 = os.getcwd()
+print(dir1)
+with open("message.txt","r") as f:
+    strline = f.readline()
+    while strline:
+        print(strline)
+        strline = f.readline()
+
+
+with open(r"message.txt","r") as f:
+    l = list(f)
+    print(l)
+    for strdata in l:
+        print(strdata)
+
+with open("message.txt","r") as f:
+    strline = f.read()
+    print(strline)
+    while strline:
+        print(strline)
+        strline = f.readline()
+
+with open("message.txt","r") as f:
+    f.seek(2,0)
+    data = f.read(3)
+    while data:
+        print(data)
+        print("*" * 20)
+        data = f.read(3)
+        time.sleep(1)
+
+
+with open("message.txt","r") as f:
+    data = f.read(3)
+    pos = f.tell()
+    while data:
+        pos = f.tell()
+        print(pos)
+        print(data)
+        data = f.read(3)
+        time.sleep(1)
+
+with open("message.txt","a") as f:
+    f.write("\n低头两个糖")
+
+with open("message.txt","a") as f:
+    f.writelines("\n低头思故乡\n")
+    f.writelines("\n**低头两个糖***\n")
+    f.writelines("低头san个糖")
+
+l = ["许","许","许","许","许","许""许","许"]
+with open("message.txt","w") as f:
+    f.writelines(l)
+
+#持久化 ----pickle
+import pickle
+data = "言必除，行必果，雪碧小，连必成"
+with open("message.txt","wb") as f:
+    pickle.dump(data,f)
+
+import pickle
+with open("message.txt","rb") as f:
+    data = pickle.load(f)
+    print(data)
+
+#持久化 ----shelve
+# 持久化工具，类似字典，
+# 用kv对保存数据，
+# 使用open与close
+
+
+#1：shelve创建文件并使用
+import shelve
+shv = shelve.open(r"shv.db")
+shv["one"] = 1
+shv["two"] = 2
+shv["three"] = 3
+shv["four"] = 4
+shv.close()
+
+#2：shelve的读取文件并使用
+data = shelve.open(r"shv.db")
+try:
+    print(data["one"])
+    print(data["three1"])
+except Exception as e:
+    print("抛异常啦啊！！！try快里有问题啊！！！")
+finally:
+    data.close()
+
+
+#3：shelve的特性
+# 不支持多个应用并行写入：为了解决这个问题，open的时候可以使用flsg = r
+#写回问题：shelve情况下不会等待持久化对象进行任何修改----解决方法是（强制写回：writeback = True
+
+#shelve 以只读打开
+shv = shelve.open(r"shv.db",flag="r")
+try:
+    print(shv["one"])
+finally:
+    shv.close()
+
+
+
+#shelve 正常的shelve读与写
+shv = shelve.open(r"shv.db")
+try:
+    shv["one"] = {"jidan":1,"yadan":2}
+finally:
+    shv.close()
+
+shv = shelve.open(r"shv.db")
+try:
+    data = shv["one"]
+    print(data)
+finally:
+    shv.close()
+
+
+#shelve忘记写回，需要使用强制写回
+shv = shelve.open(r"shv.db",writeback=True)
+try:
+    shv["one"]["wataxi"] = 99999999
+finally:
+    shv.close()
+
+shv = shelve.open(r"shv.db",flag="r")
+try:
+    data = shv["one"]
+    print(data)
+finally:
+    shv.close()
+
+
+#shelve 使用with管理上下文环境
+
