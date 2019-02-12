@@ -1,0 +1,175 @@
+# -*- coding: utf-8 -*-
+""""""
+
+"""#LOG
+    博客参考学习 ：---https://www.cnblogs.com/yyds/p/6901864.html
+   logging
+   logging模块提供模块级别的函数记录日志
+   包括四大组件
+"""
+
+"""
+1：日志相关概念
+    - 写日志
+    - 日志的级别（level）
+        - 不同的用户关注不同的程序信息
+        - DEBUG
+        - INFO
+        - NOTICE
+        - WARNING
+        - ERROR
+        - CRITICAL
+        - ALERT
+        - EMERGENCY
+    - IO =>操作不要太频繁
+    - LOG的作用
+        - 调试
+        - 了解软件的运行情况
+        - 分析定位问题
+    - 日志信息
+        - time(时间)
+        - 地点
+        - level
+        - 内容
+    - 成熟的第三方日志
+        - log4j
+        - log4php
+        - logging
+"""
+
+
+"""
+2:logging 模块
+    - 日志级别
+        - 级别可自定义
+        - DEBUG
+        - INFO
+        - NOTICE
+        - WARNING
+        - ERROR
+        - CRITICAL
+        - ALERT
+        - EMERGENCY
+    - 初始化/写日志实例需要指定级别，只有当级别等于或高于指定级别才被记录
+    - 使用方式
+        - 直接使用logging（封装了其他组件）
+        - Logging有四大组件直接定制
+"""
+
+
+"""
+2.1 logging 模块级别的日志
+- 使用以下几个函数
+    logging.debug(msg,*args,**kwargs)  创建一条严重级别为DEBUG的日志记录
+    logging.info(msg,*args,**kwargs)  创建一条严重级别为info的日志记录
+    logging.warning(msg,*args,**kwargs)  创建一条严重级别为warning的日志记录
+    logging.error(msg,*args,**kwargs)  创建一条严重级别为error的日志记录
+    logging.critical(msg,*args,**kwargs)  创建一条严重级别为critical的日志记录
+    logging.log(msg,*args,**kwargs)  创建一条严重级别为level的日志记录
+    logging.basiconfig(**kwargs)  对root，logger进行一次性配置
+
+- logging.basiconfig(**kwargs)  对root，logger进行一次性配置
+    - 只在第一次调用的时候起作用
+    - 不配置logger则使用默认值
+        - 输出 ：sys.stderr
+        - 级别 ：WARRNING
+        - 格式 ：level：log_name:cotent
+"""
+
+
+"""
+2.1:logging 模块的处理流程
+  四大组件：
+    - 日志器（logger） : 产生日志的一个接口
+    - 处理器（handler）: 把产生的日志发送到相应的目的地
+    - 过滤器（Filter） : 更精细的控制那些日志的输出
+    - 格式器（Formatter）: 对输出信息进行格式化
+- logger 组件
+    - 产生一个日志
+    - 操作
+        - logger.setLevel() 设置日志器将会处理的日志消息的最低严重级别
+
+
+        - logger.debug:产生一条debug级别的日志
+    - 如何得到一个logger对象
+        - 实例化
+        - logging.getLogger()
+- handler 组件
+    - 把log发送到指定的位置
+    - 方法
+        - setLevel
+        - setFormat
+        - setFilter,removeFilter
+    - 不需要直接使用，Handler是基类
+        -
+        -
+        -
+        -
+        -
+- Formatter类
+    - 直接实例化
+    - 可以继承Formatt添加特殊内容
+    - 三个参数
+        - fmt
+        - datefmt
+        - style:
+
+- Filter 类
+    - 可以被Handler和Logger使用
+    - 控制传递过来的信息的具体内容
+"""
+
+
+案例：
+# -*- coding: utf-8 -*-
+import logging
+import logging.handlers
+import datetime
+
+# LOG_FORMAT = "%(asctime)s=========%(levelname)s++++++++++++%(message)s"
+#
+#
+# logging.basicConfig(filename="xushunqiang.log",level=logging.DEBUG,format = LOG_FORMAT)
+#
+# logging.debug("this is 1 d log")
+# logging.info("this is a 2 log")
+# logging.warning("this is 3 d log")
+# logging.error("this is a 4 log")
+# logging.critical("this is a 5 log")
+
+
+#第二种写法
+# logging.log(logging.DEBUG,"this is 1 d log")
+# logging.log(logging.INFO,"this is a 2 log")
+# logging.log(logging.WARNING,"this is 3 d log")
+# logging.log(logging.ERROR,"this is a 4 log")
+# logging.log(logging.CRITICAL,"this is a 5 log")
+
+#定义logger
+logger = logging.getLogger("mylogger")
+logger.setLevel(logging.DEBUG)
+
+
+#为两个不同的文件设置不同的处理器
+rf_handler = logging.handlers.TimedRotatingFileHandler("all.log",when="midnight",interval=1,backupCount=7)
+rf_handler.setFormatter(logging.Formatter("%(asctime)s=========%(levelname)s++++++++++++%(message)s"))
+
+
+
+f_handler = logging.FileHandler("error.log")
+f_handler.setLevel(logging.ERROR)
+f_handler.setFormatter(logging.Formatter("%(asctime)s=======%(levelname)s++++++++++%(filename)s[:%(lineno)d]--------%(message)s]"))
+
+#把相应的处理器组装到logger上
+logger.addHandler(rf_handler)
+logger.addHandler(f_handler)
+
+
+
+logger.debug("this is 1 d log")
+logger.info("this is a 2 log")
+logger.warning("this is 3 d log")
+logger.error("this is a 4 log")
+logger.critical("this is a 5 log")
+
+
