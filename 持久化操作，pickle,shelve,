@@ -17,6 +17,7 @@ with open(r"message.txt","r") as f:
     for strdata in l:
         print(strdata)
 
+
 with open("message.txt","r") as f:
     strline = f.read()
     print(strline)
