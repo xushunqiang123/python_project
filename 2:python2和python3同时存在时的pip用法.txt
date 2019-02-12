@@ -1,0 +1,19 @@
+python2和python3同时存在时的pip用法
+　 
+python2
+python2 -m pip install 模块名
+
+python3
+python3 -m pip install 模块名
+
+python2
+python2 -m pip --version
+
+python3
+python3 -m pip --version
+
+python2
+python2 -m pip list
+
+python3
+python3 -m pip list
