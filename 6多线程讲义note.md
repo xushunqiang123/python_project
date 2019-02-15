@@ -638,6 +638,7 @@
     - semphore
         - 允许一个资源最多由几个多线程同时使用
         - v16
+	
 			import threading
 			import time
 
