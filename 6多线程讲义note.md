@@ -157,142 +157,142 @@
         2. t.start():启动多线程
         3. t.join(): 等待多线程执行完成
         4. 案例04
-				#利用time延时函数，生成两个函数
-				# 利用多线程调用
-				# 计算总运行时间
-				# 练习带参数的多线程启动方法
-				import time
-				# 导入多线程处理包
-				import threading
+			#利用time延时函数，生成两个函数
+			# 利用多线程调用
+			# 计算总运行时间
+			# 练习带参数的多线程启动方法
+			import time
+			# 导入多线程处理包
+			import threading
 
-				def loop1(in1):
-					# ctime 得到当前时间
-					print('Start loop 1 at :', time.ctime())
-					# 把参数打印出来
-					print("我是参数 ",in1)
-					# 睡眠多长时间，单位是秒
-					time.sleep(4)
-					print('End loop 1 at:', time.ctime())
+			def loop1(in1):
+				# ctime 得到当前时间
+				print('Start loop 1 at :', time.ctime())
+				# 把参数打印出来
+				print("我是参数 ",in1)
+				# 睡眠多长时间，单位是秒
+				time.sleep(4)
+				print('End loop 1 at:', time.ctime())
 
-				def loop2(in1, in2):
-					# ctime 得到当前时间
-					print('Start loop 2 at :', time.ctime())
-					# 把参数in 和 in2打印出来，代表使用
-					print("我是参数 " ,in1 , "和参数  ", in2)
-					# 睡眠多长时间，单位是秒
-					time.sleep(2)
-					print('End loop 2 at:', time.ctime())
-
-
-				def main():
-					print("Starting at:", time.ctime())
-					# 生成threading.Thread实例
-					t1 = threading.Thread(target=loop1, args=("王老大",))
-					t1.start()
-
-					t2 = threading.Thread(target=loop2, args=("王大鹏", "王小鹏"))
-					t2.start()
-
-					print("All done at:", time.ctime())
+			def loop2(in1, in2):
+				# ctime 得到当前时间
+				print('Start loop 2 at :', time.ctime())
+				# 把参数in 和 in2打印出来，代表使用
+				print("我是参数 " ,in1 , "和参数  ", in2)
+				# 睡眠多长时间，单位是秒
+				time.sleep(2)
+				print('End loop 2 at:', time.ctime())
 
 
-				if __name__ == "__main__":
-					main()
-					# 一定要有while语句
-					# 因为启动多线程后本程序就作为主线程存在
-					# 如果主线程执行完毕，则子线程可能也需要终止
-					while True:
-						time.sleep(10)
+			def main():
+				print("Starting at:", time.ctime())
+				# 生成threading.Thread实例
+				t1 = threading.Thread(target=loop1, args=("王老大",))
+				t1.start()
+
+				t2 = threading.Thread(target=loop2, args=("王大鹏", "王小鹏"))
+				t2.start()
+
+				print("All done at:", time.ctime())
+
+
+			if __name__ == "__main__":
+				main()
+				# 一定要有while语句
+				# 因为启动多线程后本程序就作为主线程存在
+				# 如果主线程执行完毕，则子线程可能也需要终止
+				while True:
+					time.sleep(10)
         5. 案例05: 加入join后比较跟案例04的结果的异同
-				#利用time延时函数，生成两个函数
-				# 利用多线程调用
-				# 计算总运行时间
-				# 练习带参数的多线程启动方法
-				import time
-				# 导入多线程处理包
-				import threading
+			#利用time延时函数，生成两个函数
+			# 利用多线程调用
+			# 计算总运行时间
+			# 练习带参数的多线程启动方法
+			import time
+			# 导入多线程处理包
+			import threading
 
-				def loop1(in1):
-					# ctime 得到当前时间
-					print('Start loop 1 at :', time.ctime())
-					# 把参数打印出来
-					print("我是参数 ",in1)
-					# 睡眠多长时间，单位是秒
-					time.sleep(4)
-					print('End loop 1 at:', time.ctime())
+			def loop1(in1):
+				# ctime 得到当前时间
+				print('Start loop 1 at :', time.ctime())
+				# 把参数打印出来
+				print("我是参数 ",in1)
+				# 睡眠多长时间，单位是秒
+				time.sleep(4)
+				print('End loop 1 at:', time.ctime())
 
-				def loop2(in1, in2):
-					# ctime 得到当前时间
-					print('Start loop 2 at :', time.ctime())
-					# 把参数in 和 in2打印出来，代表使用
-					print("我是参数 " ,in1 , "和参数  ", in2)
-					# 睡眠多长时间，单位是秒
-					time.sleep(2)
-					print('End loop 2 at:', time.ctime())
-
-
-				def main():
-					print("Starting at:", time.ctime())
-					# 生成threading.Thread实例
-					t1 = threading.Thread(target=loop1, args=("王老大",))
-					t1.start()
-
-					t2 = threading.Thread(target=loop2, args=("王大鹏", "王小鹏"))
-					t2.start()
-
-					t1.join()
-					t2.join()
-
-					print("All done at:", time.ctime())
+			def loop2(in1, in2):
+				# ctime 得到当前时间
+				print('Start loop 2 at :', time.ctime())
+				# 把参数in 和 in2打印出来，代表使用
+				print("我是参数 " ,in1 , "和参数  ", in2)
+				# 睡眠多长时间，单位是秒
+				time.sleep(2)
+				print('End loop 2 at:', time.ctime())
 
 
-				if __name__ == "__main__":
-					main()
-					# 一定要有while语句
-					# 因为启动多线程后本程序就作为主线程存在
-					# 如果主线程执行完毕，则子线程可能也需要终止
-					while True:
-						time.sleep(10)
+			def main():
+				print("Starting at:", time.ctime())
+				# 生成threading.Thread实例
+				t1 = threading.Thread(target=loop1, args=("王老大",))
+				t1.start()
+
+				t2 = threading.Thread(target=loop2, args=("王大鹏", "王小鹏"))
+				t2.start()
+
+				t1.join()
+				t2.join()
+
+				print("All done at:", time.ctime())
+
+
+			if __name__ == "__main__":
+				main()
+				# 一定要有while语句
+				# 因为启动多线程后本程序就作为主线程存在
+				# 如果主线程执行完毕，则子线程可能也需要终止
+				while True:
+					time.sleep(10)
 
         - 守护线程-daemon
             - 如果在程序中将子线程设置成守护现成，则子线程会在主线程结束的时候自动退出
             - 一般认为，守护线程不中要或者不允许离开主线程独立运行
             - 守护线程案例能否有效果跟环境相关
             - 案例06非守护线程
-				import time
-				import threading
+			import time
+			import threading
 
-				def fun():
-					print("Start fun")
-					time.sleep(2)
-					print("end fun")
+			def fun():
+				print("Start fun")
+				time.sleep(2)
+				print("end fun")
 
-				print("Main thread")
+			print("Main thread")
 
-				t1 = threading.Thread(target=fun, args=() )
-				t1.start()
+			t1 = threading.Thread(target=fun, args=() )
+			t1.start()
 
-				time.sleep(1)
-				print("Main thread end")
+			time.sleep(1)
+			print("Main thread end")
             - 案例07守护线程 
-				import time
-				import threading
+			import time
+			import threading
 
-				def fun():
-					print("Start fun")
-					time.sleep(2)
-					print("end fun")
+			def fun():
+				print("Start fun")
+				time.sleep(2)
+				print("end fun")
 
-				print("Main thread")
+			print("Main thread")
 
-				t1 = threading.Thread(target=fun, args=() )
-				# 社会守护线程的方法，必须在start之前设置，否则无效
-				t1.setDaemon(True)
-				#t1.daemon = True
-				t1.start()
+			t1 = threading.Thread(target=fun, args=() )
+			# 社会守护线程的方法，必须在start之前设置，否则无效
+			t1.setDaemon(True)
+			#t1.daemon = True
+			t1.start()
 
-				time.sleep(1)
-				print("Main thread end")
+			time.sleep(1)
+			print("Main thread end")
 
         - 线程常用属性
             -  threading.currentThread：返回当前线程变量
@@ -305,26 +305,26 @@
         - 重写run函数
         - 类实例可以直接运行
         - 案例09
-				import threading
-				import time
+			import threading
+			import time
 
-				# 1. 类需要继承自threading.Thread
-				class MyThread(threading.Thread):
-					def __init__(self, arg):
-						super(MyThread, self).__init__()
-						self.arg = arg
+			# 1. 类需要继承自threading.Thread
+			class MyThread(threading.Thread):
+				def __init__(self, arg):
+					super(MyThread, self).__init__()
+					self.arg = arg
 
-					# 2 必须重写run函数，run函数代表的是真正执行的功能
-					def  run(self):
-						time.sleep(2)
-						print("The args for this class is {0}".format(self.arg))
+				# 2 必须重写run函数，run函数代表的是真正执行的功能
+				def  run(self):
+					time.sleep(2)
+					print("The args for this class is {0}".format(self.arg))
 
-				for i in range(5):
-					t = MyThread(i)
-					t.start()
-					t.join()
+			for i in range(5):
+				t = MyThread(i)
+				t.start()
+				t.join()
 
-				print("Main thread is done!!!!!!!!")
+			print("Main thread is done!!!!!!!!")
         - 案例10， 工业风案例
 			import threading
 			from time import sleep, ctime
@@ -417,47 +417,47 @@
             - 使用共享资源，放心的用
             - 取消锁，释放锁
         - 案例12
-				import threading
+			import threading
 
-				sum = 0
-				loopSum = 1000000
-
-
-				lock = threading.Lock()
+			sum = 0
+			loopSum = 1000000
 
 
-				def myAdd():
-					global  sum, loopSum
-
-					for i in range(1, loopSum):
-						# 上锁，申请锁
-						lock.acquire()
-						sum += 1
-						# 释放锁
-						lock.release()
+			lock = threading.Lock()
 
 
-				def myMinu():
-					global  sum, loopSum
-					for i in range(1, loopSum):
-						lock.acquire()
-						sum -= 1
-						lock.release()
+			def myAdd():
+				global  sum, loopSum
 
-				if __name__ == '__main__':
-					print("Starting ....{0}".format(sum))
+				for i in range(1, loopSum):
+					# 上锁，申请锁
+					lock.acquire()
+					sum += 1
+					# 释放锁
+					lock.release()
 
-					# 开始多线程的实例，看执行结果是否一样
-					t1 = threading.Thread(target=myAdd, args=())
-					t2 = threading.Thread(target=myMinu, args=())
 
-					t1.start()
-					t2.start()
+			def myMinu():
+				global  sum, loopSum
+				for i in range(1, loopSum):
+					lock.acquire()
+					sum -= 1
+					lock.release()
 
-					t1.join()
-					t2.join()
+			if __name__ == '__main__':
+				print("Starting ....{0}".format(sum))
 
-					print("Done .... {0}".format(sum))
+				# 开始多线程的实例，看执行结果是否一样
+				t1 = threading.Thread(target=myAdd, args=())
+				t2 = threading.Thread(target=myMinu, args=())
+
+				t1.start()
+				t2.start()
+
+				t1.join()
+				t2.join()
+
+				print("Done .... {0}".format(sum))
 
         - 锁谁： 哪个资源需要多个线程共享，锁哪个
         - 理解锁：锁其实不是锁住谁，而是一个令牌
@@ -468,216 +468,216 @@
     - 生产者消费者问题
         - 一个模型，可以用来搭建消息队列， 
         - queue是一个用来存放变量的数据结构，特点是先进先出，内部元素排队，可以理解成一个特殊的list
-				#encoding=utf-8
-				import threading
-				import time
+			#encoding=utf-8
+			import threading
+			import time
 
-				# Python2
-				# from Queue import Queue
+			# Python2
+			# from Queue import Queue
 
-				# Python3
-				import queue
-
-
-				class Producer(threading.Thread):
-				    def run(self):
-					global queue
-					count = 0
-					while True:
-					    # qsize返回queue内容长度
-					    if queue.qsize() < 1000:
-						for i in range(100):
-						    count = count +1
-						    msg = '生成产品'+str(count)
-						    # put是网queue中放入一个值
-						    queue.put(msg)
-						    print(msg)
-					    time.sleep(0.5)
+			# Python3
+			import queue
 
 
-				class Consumer(threading.Thread):
-				    def run(self):
-					global queue
-					while True:
-					    if queue.qsize() > 100:
-						for i in range(3):
-						    # get是从queue中取出一个值
-						    msg = self.name + '消费了 '+queue.get()
-						    print(msg)
-					    time.sleep(1)
+			class Producer(threading.Thread):
+			    def run(self):
+				global queue
+				count = 0
+				while True:
+				    # qsize返回queue内容长度
+				    if queue.qsize() < 1000:
+					for i in range(100):
+					    count = count +1
+					    msg = '生成产品'+str(count)
+					    # put是网queue中放入一个值
+					    queue.put(msg)
+					    print(msg)
+				    time.sleep(0.5)
 
 
-				if __name__ == '__main__':
-				    queue = queue.Queue()
+			class Consumer(threading.Thread):
+			    def run(self):
+				global queue
+				while True:
+				    if queue.qsize() > 100:
+					for i in range(3):
+					    # get是从queue中取出一个值
+					    msg = self.name + '消费了 '+queue.get()
+					    print(msg)
+				    time.sleep(1)
 
-				    for i in range(500):
-					queue.put('初始产品'+str(i))
-				    for i in range(2):
-					p = Producer()
-					p.start()
-				    for i in range(5):
-					c = Consumer()
-					c.start()
+
+			if __name__ == '__main__':
+			    queue = queue.Queue()
+
+			    for i in range(500):
+				queue.put('初始产品'+str(i))
+			    for i in range(2):
+				p = Producer()
+				p.start()
+			    for i in range(5):
+				c = Consumer()
+				c.start()
 		
     - 死锁问题, 案例14
-    				import threading
-				import time
+			import threading
+			import time
 
-				lock_1 = threading.Lock()
-				lock_2 = threading.Lock()
-				
-				def func_1():
-				   print("func_1 starting.........")
-				   lock_1.acquire()
-				   print("func_1 申请了 lock_1....")
-				   time.sleep(2)
-				   print("func_1 等待 lock_2.......")
-				   lock_2.acquire()
-				   print("func_1 申请了 lock_2.......")
+			lock_1 = threading.Lock()
+			lock_2 = threading.Lock()
 
-				   lock_2.release()
-				   print("func_1 释放了 lock_2")
+			def func_1():
+			   print("func_1 starting.........")
+			   lock_1.acquire()
+			   print("func_1 申请了 lock_1....")
+			   time.sleep(2)
+			   print("func_1 等待 lock_2.......")
+			   lock_2.acquire()
+			   print("func_1 申请了 lock_2.......")
 
-				   lock_1.release()
-				   print("func_1 释放了 lock_1")
+			   lock_2.release()
+			   print("func_1 释放了 lock_2")
 
-				   print("func_1 done..........")
+			   lock_1.release()
+			   print("func_1 释放了 lock_1")
+
+			   print("func_1 done..........")
 
 
-				def func_2():
-				   print("func_2 starting.........")
-				   lock_2.acquire()
-				   print("func_2 申请了 lock_2....")
-				   time.sleep(4)
-				   print("func_2 等待 lock_1.......")
-				   lock_1.acquire()
-				   print("func_2 申请了 lock_1.......")
+			def func_2():
+			   print("func_2 starting.........")
+			   lock_2.acquire()
+			   print("func_2 申请了 lock_2....")
+			   time.sleep(4)
+			   print("func_2 等待 lock_1.......")
+			   lock_1.acquire()
+			   print("func_2 申请了 lock_1.......")
 
-				   lock_1.release()
-				   print("func_2 释放了 lock_1")
+			   lock_1.release()
+			   print("func_2 释放了 lock_1")
 
-				   lock_2.release()
-				   print("func_2 释放了 lock_2")
+			   lock_2.release()
+			   print("func_2 释放了 lock_2")
 
-				   print("func_2 done..........")
+			   print("func_2 done..........")
 
-				if __name__ == "__main__":
+			if __name__ == "__main__":
 
-				   print("主程序启动..............")
-				   t1 = threading.Thread(target=func_1, args=())
-				   t2 = threading.Thread(target=func_2, args=())
+			   print("主程序启动..............")
+			   t1 = threading.Thread(target=func_1, args=())
+			   t2 = threading.Thread(target=func_2, args=())
 
-				   t1.start()
-				   t2.start()
+			   t1.start()
+			   t2.start()
 
-				   t1.join()
-				   t2.join()
+			   t1.join()
+			   t2.join()
 
-				   print("主程序启动..............")
+			   print("主程序启动..............")
 				   
 		
     - 锁的等待时间问题， v15
-						import threading
-						import time
+			import threading
+			import time
 
-						lock_1 = threading.Lock()
-						lock_2 = threading.Lock()
+			lock_1 = threading.Lock()
+			lock_2 = threading.Lock()
 
-						def func_1():
-							print("func_1 starting.........")
-							lock_1.acquire(timeout=4)
-							print("func_1 申请了 lock_1....")
-							time.sleep(2)
-							print("func_1 等待 lock_2.......")
+			def func_1():
+				print("func_1 starting.........")
+				lock_1.acquire(timeout=4)
+				print("func_1 申请了 lock_1....")
+				time.sleep(2)
+				print("func_1 等待 lock_2.......")
 
-							rst = lock_2.acquire(timeout=2)
-							if rst:
-								print("func_1 已经得到锁 lock_2")
-								lock_2.release()
-								print("func_1 释放了锁 lock_2")
-							else:
-								print("func_1 注定没申请到lock_2.....")
+				rst = lock_2.acquire(timeout=2)
+				if rst:
+					print("func_1 已经得到锁 lock_2")
+					lock_2.release()
+					print("func_1 释放了锁 lock_2")
+				else:
+					print("func_1 注定没申请到lock_2.....")
 
-							lock_1.release()
-							print("func_1 释放了 lock_1")
+				lock_1.release()
+				print("func_1 释放了 lock_1")
 
-							print("func_1 done..........")
+				print("func_1 done..........")
 
 
-						def func_2():
-							print("func_2 starting.........")
-							lock_2.acquire()
-							print("func_2 申请了 lock_2....")
-							time.sleep(4)
-							print("func_2 等待 lock_1.......")
-							lock_1.acquire()
-							print("func_2 申请了 lock_1.......")
+			def func_2():
+				print("func_2 starting.........")
+				lock_2.acquire()
+				print("func_2 申请了 lock_2....")
+				time.sleep(4)
+				print("func_2 等待 lock_1.......")
+				lock_1.acquire()
+				print("func_2 申请了 lock_1.......")
 
-							lock_1.release()
-							print("func_2 释放了 lock_1")
+				lock_1.release()
+				print("func_2 释放了 lock_1")
 
-							lock_2.release()
-							print("func_2 释放了 lock_2")
+				lock_2.release()
+				print("func_2 释放了 lock_2")
 
-							print("func_2 done..........")
+				print("func_2 done..........")
 
-						if __name__ == "__main__":
+			if __name__ == "__main__":
 
-							print("主程序启动..............")
-							t1 = threading.Thread(target=func_1, args=())
-							t2 = threading.Thread(target=func_2, args=())
+				print("主程序启动..............")
+				t1 = threading.Thread(target=func_1, args=())
+				t2 = threading.Thread(target=func_2, args=())
 
-							t1.start()
-							t2.start()
+				t1.start()
+				t2.start()
 
-							t1.join()
-							t2.join()
+				t1.join()
+				t2.join()
 
-							print("主程序结束..............")
+				print("主程序结束..............")
 
     - semphore
         - 允许一个资源最多由几个多线程同时使用
         - v16
-				import threading
-				import time
+			import threading
+			import time
 
-				# 参数定义最多几个线程同时使用资源
-				semaphore = threading.Semaphore(3)
+			# 参数定义最多几个线程同时使用资源
+			semaphore = threading.Semaphore(3)
 
-				def func():
-				    if semaphore.acquire():
-					for i in range(5):
-					    print(threading.currentThread().getName() + ' get semaphore')
-					time.sleep(15)
-					semaphore.release()
-					print(threading.currentThread().getName() + ' release semaphore')
+			def func():
+			    if semaphore.acquire():
+				for i in range(5):
+				    print(threading.currentThread().getName() + ' get semaphore')
+				time.sleep(15)
+				semaphore.release()
+				print(threading.currentThread().getName() + ' release semaphore')
 
 
-				for i in range(8):
-				    t1 = threading.Thread(target=func)
-				    t1.start()
+			for i in range(8):
+			    t1 = threading.Thread(target=func)
+			    t1.start()
 				
     - threading.Timer
         - 案例 17
-				import threading
-				import time
+			import threading
+			import time
 
-				def func():
-				    print("I am running.........")
-				    time.sleep(4)
-				    print("I am done......")
+			def func():
+			    print("I am running.........")
+			    time.sleep(4)
+			    print("I am done......")
 
 
 
-				if __name__ == "__main__":
-				    t = threading.Timer(6, func)
-				    t.start()
+			if __name__ == "__main__":
+			    t = threading.Timer(6, func)
+			    t.start()
 
-				    i = 0
-				    while True:
-					print("{0}***************".format(i))
-					time.sleep(3)
-					i += 1
+			    i = 0
+			    while True:
+				print("{0}***************".format(i))
+				time.sleep(3)
+				i += 1
 
         - Timer是利用多线程，在指定时间后启动一个功能
         
@@ -685,36 +685,36 @@
         - 一个锁，可以被一个线程多次申请
         - 主要解决递归调用的时候，需要申请锁的情况
         - 案例18
-				import threading
-				import time
+			import threading
+			import time
 
-				class MyThread(threading.Thread):
-				    def run(self):
-					global num
-					time.sleep(1)
+			class MyThread(threading.Thread):
+			    def run(self):
+				global num
+				time.sleep(1)
 
-					if mutex.acquire(1):
-					    num = num+1
-					    msg = self.name+' set num to '+str(num)
-					    print(msg)
-					    mutex.acquire()
-					    mutex.release()
-					    mutex.release()
+				if mutex.acquire(1):
+				    num = num+1
+				    msg = self.name+' set num to '+str(num)
+				    print(msg)
+				    mutex.acquire()
+				    mutex.release()
+				    mutex.release()
 
-				num = 0
+			num = 0
 
-				mutex = threading.RLock()
-
-
-				def testTh():
-				    for i in range(5):
-					t = MyThread()
-					t.start()
+			mutex = threading.RLock()
 
 
+			def testTh():
+			    for i in range(5):
+				t = MyThread()
+				t.start()
 
-				if __name__ == '__main__':
-				    testTh()
+
+
+			if __name__ == '__main__':
+			    testTh()
         
 # 线程替代方案
 -  subprocess
@@ -735,55 +735,55 @@
 - 进程之间无任何共享状态
 - 进程的创建
     - 直接生成Process实例对象， 案例19
-    				import multiprocessing
-				from time import sleep, ctime
+			import multiprocessing
+			from time import sleep, ctime
 
 
-				def clock(interval):
-				    while True:
-					print("The time is %s" % ctime())
-					sleep(interval)
+			def clock(interval):
+			    while True:
+				print("The time is %s" % ctime())
+				sleep(interval)
 
 
 
-				if __name__ == '__main__':
-				    p = multiprocessing.Process(target = clock, args = (5,))
-				    p.start()
+			if __name__ == '__main__':
+			    p = multiprocessing.Process(target = clock, args = (5,))
+			    p.start()
 
-				    while True:
-					print('sleeping.......')
-					sleep(1)
+			    while True:
+				print('sleeping.......')
+				sleep(1)
 
 
     - 派生子类， 案例20
-    				import multiprocessing
-				from time import sleep, ctime
+			import multiprocessing
+			from time import sleep, ctime
 
 
-				class ClockProcess(multiprocessing.Process):
-				    '''
-				    两个函数比较重要
-				    1. init构造函数
-				    2. run
-				    '''
+			class ClockProcess(multiprocessing.Process):
+			    '''
+			    两个函数比较重要
+			    1. init构造函数
+			    2. run
+			    '''
 
-				    def __init__(self, interval):
-					super().__init__()
-					self.interval = interval
+			    def __init__(self, interval):
+				super().__init__()
+				self.interval = interval
 
-				    def run(self):
-					while True:
-					    print("The time is %s" % ctime())
-					    sleep(self.interval)
+			    def run(self):
+				while True:
+				    print("The time is %s" % ctime())
+				    sleep(self.interval)
 
 
-				if __name__ == '__main__':
-				    p = ClockProcess(3)
-				    p.start()
+			if __name__ == '__main__':
+			    p = ClockProcess(3)
+			    p.start()
 
-				    while True:
-					print('sleeping.......')
-					sleep(1)
+			    while True:
+				print('sleeping.......')
+				sleep(1)
 
     
 - 在os中查看pid，ppid以及他们的关系              
