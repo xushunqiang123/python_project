@@ -98,7 +98,6 @@
 
 				print("All done at:", time.ctime())
 
-
 			if __name__ == '__main__':
 				main()
 				while True:
@@ -327,6 +326,54 @@
 
 				print("Main thread is done!!!!!!!!")
         - 案例10， 工业风案例
+			import threading
+			from time import sleep, ctime
+
+			loop = [4,2]
+
+			class ThreadFunc:
+
+			    def __init__(self, name):
+				self.name = name
+
+			    def loop(self, nloop, nsec):
+				'''
+				:param nloop: loop函数的名称
+				:param nsec: 系统休眠时间
+				:return:
+				'''
+				print('Start loop ', nloop, 'at ', ctime())
+				sleep(nsec)
+				print('Done loop ', nloop, ' at ', ctime())
+
+			def main():
+			    print("Starting at: ", ctime())
+
+			    # ThreadFunc("loop").loop 跟一下两个式子相等：
+			    # t = ThreadFunc("loop")
+			    # t.loop
+			    # 以下t1 和  t2的定义方式相等
+			    t = ThreadFunc("loop")
+			    t1 = threading.Thread( target = t.loop, args=("LOOP1", 4))
+			    # 下面这种写法更西方人，工业化一点
+			    t2 = threading.Thread( target = ThreadFunc('loop').loop, args=("LOOP2", 2))
+
+			    # 常见错误写法
+			    #t1 = threading.Thread(target=ThreadFunc('loop').loop(100,4))
+			    #t2 = threading.Thread(target=ThreadFunc('loop').loop(100,2))
+
+			    t1.start()
+			    t2.start()
+
+			    t1.join( )
+			    t2.join()
+
+
+			    print("ALL done at: ", ctime())
+
+
+			if __name__ == '__main__':
+			    main()
 				
 - 共享变量
     - 共享变量： 当多个现成同时访问一个变量的时候，会产生共享变量的问题
@@ -421,7 +468,114 @@
     - 生产者消费者问题
         - 一个模型，可以用来搭建消息队列， 
         - queue是一个用来存放变量的数据结构，特点是先进先出，内部元素排队，可以理解成一个特殊的list
+				#encoding=utf-8
+				import threading
+				import time
+
+				# Python2
+				# from Queue import Queue
+
+				# Python3
+				import queue
+
+
+				class Producer(threading.Thread):
+				    def run(self):
+					global queue
+					count = 0
+					while True:
+					    # qsize返回queue内容长度
+					    if queue.qsize() < 1000:
+						for i in range(100):
+						    count = count +1
+						    msg = '生成产品'+str(count)
+						    # put是网queue中放入一个值
+						    queue.put(msg)
+						    print(msg)
+					    time.sleep(0.5)
+
+
+				class Consumer(threading.Thread):
+				    def run(self):
+					global queue
+					while True:
+					    if queue.qsize() > 100:
+						for i in range(3):
+						    # get是从queue中取出一个值
+						    msg = self.name + '消费了 '+queue.get()
+						    print(msg)
+					    time.sleep(1)
+
+
+				if __name__ == '__main__':
+				    queue = queue.Queue()
+
+				    for i in range(500):
+					queue.put('初始产品'+str(i))
+				    for i in range(2):
+					p = Producer()
+					p.start()
+				    for i in range(5):
+					c = Consumer()
+					c.start()
+		
     - 死锁问题, 案例14
+    				import threading
+				import time
+
+				lock_1 = threading.Lock()
+				lock_2 = threading.Lock()
+				
+				def func_1():
+				   print("func_1 starting.........")
+				   lock_1.acquire()
+				   print("func_1 申请了 lock_1....")
+				   time.sleep(2)
+				   print("func_1 等待 lock_2.......")
+				   lock_2.acquire()
+				   print("func_1 申请了 lock_2.......")
+
+				   lock_2.release()
+				   print("func_1 释放了 lock_2")
+
+				   lock_1.release()
+				   print("func_1 释放了 lock_1")
+
+				   print("func_1 done..........")
+
+
+				def func_2():
+				   print("func_2 starting.........")
+				   lock_2.acquire()
+				   print("func_2 申请了 lock_2....")
+				   time.sleep(4)
+				   print("func_2 等待 lock_1.......")
+				   lock_1.acquire()
+				   print("func_2 申请了 lock_1.......")
+
+				   lock_1.release()
+				   print("func_2 释放了 lock_1")
+
+				   lock_2.release()
+				   print("func_2 释放了 lock_2")
+
+				   print("func_2 done..........")
+
+				if __name__ == "__main__":
+
+				   print("主程序启动..............")
+				   t1 = threading.Thread(target=func_1, args=())
+				   t2 = threading.Thread(target=func_2, args=())
+
+				   t1.start()
+				   t2.start()
+
+				   t1.join()
+				   t2.join()
+
+				   print("主程序启动..............")
+				   
+		
     - 锁的等待时间问题， v15
 						import threading
 						import time
@@ -484,15 +638,83 @@
     - semphore
         - 允许一个资源最多由几个多线程同时使用
         - v16
+				import threading
+				import time
+
+				# 参数定义最多几个线程同时使用资源
+				semaphore = threading.Semaphore(3)
+
+				def func():
+				    if semaphore.acquire():
+					for i in range(5):
+					    print(threading.currentThread().getName() + ' get semaphore')
+					time.sleep(15)
+					semaphore.release()
+					print(threading.currentThread().getName() + ' release semaphore')
+
+
+				for i in range(8):
+				    t1 = threading.Thread(target=func)
+				    t1.start()
 				
     - threading.Timer
         - 案例 17
+				import threading
+				import time
+
+				def func():
+				    print("I am running.........")
+				    time.sleep(4)
+				    print("I am done......")
+
+
+
+				if __name__ == "__main__":
+				    t = threading.Timer(6, func)
+				    t.start()
+
+				    i = 0
+				    while True:
+					print("{0}***************".format(i))
+					time.sleep(3)
+					i += 1
+
         - Timer是利用多线程，在指定时间后启动一个功能
         
     - 可重入锁
         - 一个锁，可以被一个线程多次申请
         - 主要解决递归调用的时候，需要申请锁的情况
         - 案例18
+				import threading
+				import time
+
+				class MyThread(threading.Thread):
+				    def run(self):
+					global num
+					time.sleep(1)
+
+					if mutex.acquire(1):
+					    num = num+1
+					    msg = self.name+' set num to '+str(num)
+					    print(msg)
+					    mutex.acquire()
+					    mutex.release()
+					    mutex.release()
+
+				num = 0
+
+				mutex = threading.RLock()
+
+
+				def testTh():
+				    for i in range(5):
+					t = MyThread()
+					t.start()
+
+
+
+				if __name__ == '__main__':
+				    testTh()
         
 # 线程替代方案
 -  subprocess
@@ -513,7 +735,56 @@
 - 进程之间无任何共享状态
 - 进程的创建
     - 直接生成Process实例对象， 案例19
+    				import multiprocessing
+				from time import sleep, ctime
+
+
+				def clock(interval):
+				    while True:
+					print("The time is %s" % ctime())
+					sleep(interval)
+
+
+
+				if __name__ == '__main__':
+				    p = multiprocessing.Process(target = clock, args = (5,))
+				    p.start()
+
+				    while True:
+					print('sleeping.......')
+					sleep(1)
+
+
     - 派生子类， 案例20
+    				import multiprocessing
+				from time import sleep, ctime
+
+
+				class ClockProcess(multiprocessing.Process):
+				    '''
+				    两个函数比较重要
+				    1. init构造函数
+				    2. run
+				    '''
+
+				    def __init__(self, interval):
+					super().__init__()
+					self.interval = interval
+
+				    def run(self):
+					while True:
+					    print("The time is %s" % ctime())
+					    sleep(self.interval)
+
+
+				if __name__ == '__main__':
+				    p = ClockProcess(3)
+				    p.start()
+
+				    while True:
+					print('sleeping.......')
+					sleep(1)
+
     
 - 在os中查看pid，ppid以及他们的关系              
     - 案例21
