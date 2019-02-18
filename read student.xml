@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<School>
+   <Teacher desc="PythonTeacher" score="good">
+       <Name>LiuDana</Name>
+       <Age_1 Detail="Age for year 2010">18</Age_1>
+       <Mobile>13260446055</Mobile>
+   </Teacher>
+    <Student1>
+        <Name Other="他是班长">ZhangSan</Name>
+        <Age Detail="The yongest boy in class">14</Age>
+    </Student1>
+    <Student2>
+        <Name>LiSi</Name>
+        <Age>19</Age>
+        <Mobile>15578875040</Mobile>
+    </Student2>
+
+</School>
+
+
+
+
+
+read:
+
+#-*-coding:utf-8 -*-
+import xml.dom.minidom
+
+DOMtree = xml.dom.minidom.parse("student.xml")
+
+doc = DOMtree.documentElement
+
+sons = doc.childNodes
+for son in sons:
+    if son.nodeName =="Teacher":
+        print("---------> nodeName:{0} <----------".format(son.nodeName))
+        grandsons = son.childNodes
+        for grandson in grandsons:
+            if grandson.nodeName =="Name":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+            elif grandson.nodeName == "Age_1":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+            elif grandson.nodeName == "Mobile":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+    if son.nodeName =="Student1":
+        print("---------> nodeName:{0} <----------".format(son.nodeName))
+        grandsons = son.childNodes
+        for grandson in grandsons:
+            if grandson.nodeName =="Name":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+            elif grandson.nodeName == "Age":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+    if son.nodeName =="Student2":
+        print("---------> nodeName:{0} <----------".format(son.nodeName))
+        grandsons = son.childNodes
+        for grandson in grandsons:
+            if grandson.nodeName =="Name":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+            elif grandson.nodeName == "Age":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
+            elif grandson.nodeName == "Mobile":
+                print(grandson.nodeName + " : " +grandson.childNodes[0].data)
