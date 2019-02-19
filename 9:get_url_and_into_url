@@ -1,0 +1,48 @@
+#-*-coding:utf-8 -*-
+import xml.etree.ElementTree as ET
+import webbrowser
+from prettytable import PrettyTable
+from colorama import Fore, Back, Style
+
+
+def seac():
+    tree = ET.parse("NET.xml")
+    root = tree.getroot()
+    sons = root.findall("*")
+    print(getattr(Back, 'GREEN'),"-------------------------------------->以下是公司开设的网址：<---------------------------------")
+    i = 1
+    list1 = []
+    for son in sons:
+        list1.append("编号:[{}] ".format(i)+son.tag)
+        # x.add_row(["编号:[{}] ".format(i)+son.tag ,1] )
+        # print("--->" + son.tag +": 编号：[{}]".format(i))
+        i += 1
+    x = PrettyTable()
+    x.add_column("第一页",list1[0:18])
+    x.add_column("第二页",list1[18:36])
+    # x.add_row(["编号:[{}] ".format(i) + t ,"编号:[{}] ".format(i) + iii] )
+    x.align["第一页"] = "l"
+    x.align["第二页"] = "l"
+    print(getattr(Fore, 'RED'),x)
+    print(getattr(Fore, 'GREEN'),"-------------------------------------->以上是公司开设的网址：<---------------------------------")
+    print()
+
+    schoolmou = input("如果您想查询某一个学校的网址，请输入该学校的编号：")
+
+    obj_schllomou = root.findall(sons[int(schoolmou)-1].tag)
+    for arrtri in obj_schllomou:
+        print("该学校的网址链接是:  {} ".format(arrtri.attrib["URL"]))
+        xinhao =input("是否打开该网址呢？是的话请输入y:")
+        if xinhao == "y":
+            webbrowser.open(arrtri.attrib["URL"])
+
+if __name__ == '__main__':
+    # mode con cols=100 lines=100&color    0a
+    flag = True
+    while flag:
+        seac()
+        # silm = input("继续请按y,退出请按非y键")
+        # if silm == "y":
+        #     continue
+        # else:
+        #     flag = False
