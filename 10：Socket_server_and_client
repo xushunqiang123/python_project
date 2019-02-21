@@ -1,0 +1,44 @@
+#-*-coding:utf-8 -*-
+#server
+import socket # 导入 socket 模块
+
+host = "192.168.1.111"  #获取本机ip
+port = 9999                # 设置端口
+addrr = (host,port)
+s = socket.socket() # 创建 socket 对象
+s.bind(addrr)        # 绑定端口
+
+s.listen(5)
+while True:
+    c, addr = s.accept()
+    print ('address: ', addr)
+    if addr:
+        while 1:
+            str = input("请输入您想说的话：")
+            c.send(str.encode("utf8"))
+            print(c.recv(1024).decode("utf8"))
+    else:
+        print("未连接")
+        continue
+        
+        
+        
+ 
+ 
+#-*-coding:utf-8 -*-
+#client
+import socket
+              # 导入 socket 模块
+s = socket.socket()
+myname = socket.getfqdn(socket.gethostname() )
+host = "123.113.200.6"
+port = 9999
+
+
+s.connect((host, port))
+while 1:
+    print ("对方:" + s.recv(1024).decode("utf8"))
+    msg = input("你想说啥：")
+    s.send(msg.encode("utf-8"))
+    print("我:" + msg)
+    print("请稍等。。。。。")
